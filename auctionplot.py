@@ -4,12 +4,13 @@ from matplotlib.figure import Figure
 import pandas as pd
 from datetime import datetime
 
-def plotAuctionData():
-# Sample data
-    dates = ['2025-05-01', '2025-05-08', '2025-05-15', '2025-05-22', '2025-05-29']
-    values = [10, 15, 7, 12, 9]
 
-    # Convert dates to datetime objects
+
+def plotAuctionData(dates,values):
+
+
+
+# Convert dates to datetime objects
     dates = [pd.to_datetime(d) for d in dates]
 
     # Create the scatter plot
@@ -28,16 +29,6 @@ def plotAuctionData():
 
     fig = plt.gcf()
     return fig
-
-
-
-    return plt
-
-
-
-
-
-
 
 def auctionplot():
     fig, ax = plt.subplots()
