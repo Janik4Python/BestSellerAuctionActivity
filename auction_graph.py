@@ -1,7 +1,10 @@
 import tkinter as tk
+
+import matplotlib
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.dates as mdates
+import matplotlib.ticker as ticker
 import pandas as pd
 
 import auction_data as da
@@ -31,11 +34,17 @@ def update_plot(selected_book):
     # Format the x-axis to show dates nicely
     axis.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     figure.autofmt_xdate() # Rotate date labels for better readability
+    formatter = ticker.StrMethodFormatter('${x:,.2f}')
+    axis.yaxis.set_major_formatter(formatter)
+    axis.yaxis.set_label_coords(-0.125, 0.5)
+    axis.xaxis.set_label_coords(0.5, -0.255)
 
     # Add x-axis label
     axis.set_xlabel("Date")
     # Add y-axis label
     axis.set_ylabel("Cost")
+    # Add grid
+    axis.grid(True)
 
     # Redraw plot with updated data
     axis.scatter(x_data, y_data)
@@ -46,17 +55,17 @@ def update_plot(selected_book):
 # Create Tkinter window
 window = tk.Tk()
 window.configure(bg="white")
-window.geometry("600x600")
+window.geometry("800x800")
 window.title("Book Auctions")
 
 top= tk.Frame(window)
 top.configure(background="white")
-top.configure(height=100)
+top.configure(height=50)
 bottom = tk.Frame(window)
 bottom.configure(background="white")
 
 top.pack(side="top", pady=20)
-bottom.pack(side="bottom", expand=True)
+bottom.pack(side="top")
 
 #book dropdown
 selected_value = tk.StringVar(window)
@@ -70,13 +79,13 @@ button = tk.Button(window, text="Graph", command=lambda:update_plot(selected_val
 button.pack(in_=top, side="left")
 
 #blank graph
-figure = Figure(figsize=(4,4), dpi=100)
+figure = Figure(figsize=(6.5,4), dpi=100)
 axis = figure.add_subplot()
 axis.scatter([],[])
 axis.set_axis_off()
 
 # Embed Matplotlib figure in Tkinter canvas
-canvas = FigureCanvasTkAgg(figure, master=window)
+canvas = FigureCanvasTkAgg(figure, master=bottom)
 canvas_widget = canvas.get_tk_widget()
 canvas_widget.pack()
 

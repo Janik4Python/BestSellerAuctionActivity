@@ -1,4 +1,4 @@
-from obsolete import book_auction as bau
+import book_auction as bau
 
 
 def main():
