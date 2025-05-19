@@ -1,4 +1,4 @@
-class Bookauction:
+class BookAuction:
     def __init__(self, title, author, auction_number, sell_price, sell_date):
         self.title = title
         self.author = author

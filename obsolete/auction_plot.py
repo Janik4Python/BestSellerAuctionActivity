@@ -4,11 +4,7 @@ from matplotlib.figure import Figure
 import pandas as pd
 from datetime import datetime
 
-
-
-def plotAuctionData(dates,values):
-
-
+def plot_auction_data(title, dates,values):
 
 # Convert dates to datetime objects
     dates = [pd.to_datetime(d) for d in dates]
@@ -25,12 +21,12 @@ def plotAuctionData(dates,values):
     # Add labels and title
     plt.xlabel('Date')
     plt.ylabel('Value')
-    plt.title('Scatter Plot with Datetime on X-axis')
+    plt.title(title)
 
     fig = plt.gcf()
     return fig
 
-def auctionplot():
+def auction_plot():
     fig, ax = plt.subplots()
     ax.plot([1, 2, 3, 4], [5, 6, 7, 8]) # Example plot
     return fig

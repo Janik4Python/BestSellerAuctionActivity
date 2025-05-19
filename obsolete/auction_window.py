@@ -1,17 +1,14 @@
 import tkinter as tk
-import auctionplot
-from PIL import Image, ImageTk
+from obsolete import auction_plot
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import bookauction as bau
 
-
-def selectBook():
-    print("book selected")
 
 def main():
     print("auction window")
 
-def createWindow(dt,book_options):
+def create_window(dt,book_options):
+
+
 
     # Create the main window
     window = tk.Tk()
@@ -24,19 +21,33 @@ def createWindow(dt,book_options):
 
     frame = tk.Frame(window)
     frame.pack()
-
     label = tk.Label(frame, text="Auction Activity")
 
-
-    selected_option=tk.StringVar(window)
-    #selected_option.set("select")
+    selected_value=tk.StringVar(window)
     options = book_options
-    #options = ["option 1", "option 2", "option 3"]
-    dropdown = tk.OptionMenu(window, selected_option, *options)
+    selected_value.set(options[0])
+    dropdown = tk.OptionMenu(window, selected_value, *options)
     dropdown.pack()
 
-    button = tk.Button(window, text="My Button",command=lambda:selectBook())
+    button = tk.Button(window, text="Show Graph",command=lambda:select_book(selected_value.get()))
     button.pack()
+
+    canvas = tk.Canvas(window, width=200, height=200,bg="white")
+    canvas.pack()
+
+    def select_book(book_title):
+        dates = []
+        values = []
+        for auction in dt:
+            if auction.title == book_title:
+                dates.append(auction.sell_date)
+                values.append(auction.sell_price)
+
+
+        fig = auction_plot.plot_auction_data(book_title, dates, values)
+        graph_canvas = FigureCanvasTkAgg(fig, master=window)
+        canvas_widget = graph_canvas.get_tk_widget()
+        canvas_widget.pack()
 
     # graphic window
     # image_path = "graph-here.jpg"  # Replace with the actual path to your image
@@ -70,17 +81,17 @@ def createWindow(dt,book_options):
     # auction4 = bau.Bookauction("title4", "author4", "111", 7.33, "2025-05-11")
     # auctionlist = [auction1, auction2, auction3, auction4]
 
-    dates = []
-    values = []
-
-    for auction in dt:
-        dates.append(auction.sell_date)
-        values.append(auction.sell_price)
-
-    fig=auctionplot.plotAuctionData(dates, values)
-    canvas = FigureCanvasTkAgg(fig, master=window)
-    canvas_widget = canvas.get_tk_widget()
-    canvas_widget.pack()
+    # dates = []
+    # values = []
+    #
+    # for auction in dt:
+    #     dates.append(auction.sell_date)
+    #     values.append(auction.sell_price)
+    #
+    # fig=auction_plot.plot_auction_data(dates, values)
+    # canvas = FigureCanvasTkAgg(fig, master=window)
+    # canvas_widget = canvas.get_tk_widget()
+    # canvas_widget.pack()
 
     # Run the Tkinter event loop
     window.mainloop()
